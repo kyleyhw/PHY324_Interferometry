@@ -20,6 +20,8 @@ fit.plot_data_and_fit(ax)
 
 ax.set_title('Interferometry calibration curve')
 ax.grid(visible=True, which='both')
+ax.set_ylabel('Micrometer reading (mm)') # I disagree with putting units in brackets but TA forces this
+ax.set_xlabel('Number of times fringes disappear and then reappear')
 
 fig.savefig('PHY324_Interferometry_calibration_curve.png')
 fig.show()

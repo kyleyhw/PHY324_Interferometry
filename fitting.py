@@ -21,13 +21,13 @@ class Fitting():
         self.popt, self.pcov = curve_fit(self.model, self.x, self.y_measured, sigma=y_error, absolute_sigma=True, p0=p0)
         self.parameter_errors = np.sqrt(np.diag(self.pcov))
 
-        self.fitted_function = self.model.CorrespondingFittedFunction(popt=self.popt, parameter_errors=self.parameter_errors)
+        self.fitted_function = self.model.CorrespondingFittedFunction(popt=self.popt, parameter_errors=self.parameter_errors, units_for_parameters = ('mm', 'mm'))
 
         self.cfa = CurveFitAnalysis(self.x, self.y_measured, self.y_error, self.fitted_function)
 
     def plot_data_and_fit(self, ax, **kwargs):
 
-        Output.baseplot_errorbars(ax=ax, x=self.x, y=self.y_measured, yerr=self.y_error, xerr=None, label='data')
+        Output.baseplot_errorbars_with_markers(ax=ax, x=self.x, y=self.y_measured, yerr=self.y_error, xerr=None, label='data')
 
         x_for_plotting_fit = np.linspace(*ax.get_xlim(), 10000)
 
@@ -36,9 +36,10 @@ class Fitting():
         info_sigfigs = 3
         info_fontsize = 22
 
-        info_on_ax = '\n$\chi^2$ / DOF = ' + Output.to_sf(self.cfa.raw_chi2, sf=info_sigfigs) + ' / ' + str(self.cfa.degrees_of_freedom) + ' = ' + Output.to_sf(self.cfa.reduced_chi2, sf=info_sigfigs) + \
-                     '\n$\chi^2$ prob = ' + Output.to_sf(self.cfa.chi2_probability, sf=info_sigfigs) + \
-                     self.fitted_function.other_info
+        info_on_ax = self.fitted_function.parameter_info + \
+                     '\n$\chi^2$ / DOF = ' + Output.to_sf(self.cfa.raw_chi2, sf=info_sigfigs) + ' / ' + str(self.cfa.degrees_of_freedom) + ' = ' + Output.to_sf(self.cfa.reduced_chi2, sf=info_sigfigs) + \
+                     '\n$\chi^2$ prob = ' + Output.to_sf(self.cfa.chi2_probability, sf=info_sigfigs)
+
 
         ax_text = AnchoredText(info_on_ax, loc='lower left', frameon=False, prop=dict(fontsize=info_fontsize))
         ax.add_artist(ax_text)
