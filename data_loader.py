@@ -1,5 +1,5 @@
 import numpy as np
-import curve_fit_funcs as cff
+import fitting_and_analysis as cff
 cff = cff.CurveFitFuncs()
 
 class DataLoader():
