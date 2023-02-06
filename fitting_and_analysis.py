@@ -5,20 +5,6 @@ class CurveFitFuncs():
     def __init__(self):
         pass
 
-    def baseplot_errorbars(self, ax, x, y, yerr=None, xerr=None, label=None, **kwargs):
-        ax.errorbar(x, y, yerr=yerr, xerr=xerr, linestyle='None', capsize=2, label=label, **kwargs)
-
-    def baseplot_errorbars_with_markers(self, ax, x, y, yerr=None, xerr=None, label=None, marker='.', **kwargs):
-        ax.errorbar(x, y, yerr=yerr, xerr=xerr, linestyle='None', capsize=2, label=label, marker=marker)
-    
-    def to_sf(self, num, sf=4):
-        result = '%.*g' % (sf, num)
-        # result = (f'{num:.{sf}g}')
-        return result
-
-
-
-
     def remove_systematic_error(self, arr):
         return arr - arr[0]
 
@@ -48,15 +34,29 @@ class CurveFitFuncs():
         return chi2_prob
 
 
-
-
 class CurveFitAnalysis():
-    def __init__(self, xarr, yarr_measured, yarr_uncertainty, FittedFunc): # FittedFunc must have params_in_model attribute
+    def __init__(self, xarr, yarr_measured, yarr_uncertainty, FittedFunc): # FittedFunc must have number_of_parameters attribute
         cff = CurveFitFuncs()
         yarr_predicted = FittedFunc(xarr)
 
-        self.degrees_of_freedom = cff.calc_dof(yarr_measured, FittedFunc.params_in_model)
+        self.degrees_of_freedom = cff.calc_dof(yarr_measured, FittedFunc.number_of_parameters)
         self.raw_chi2 = cff.calc_raw_chi_squared(yarr_measured, yarr_predicted, yarr_uncertainty)
-        self.reduced_chi2 = cff.calc_reduced_chi_squared(yarr_measured, yarr_predicted, yarr_uncertainty, FittedFunc.params_in_model)
+        self.reduced_chi2 = cff.calc_reduced_chi_squared(yarr_measured, yarr_predicted, yarr_uncertainty, FittedFunc.number_of_parameters)
         self.chi2_probability = cff.calc_chi2_probability(self.raw_chi2, self.degrees_of_freedom)
 
+
+
+class Output():
+    def __init__(self):
+        pass
+
+    def baseplot_errorbars(self, ax, x, y, yerr=None, xerr=None, **kwargs):
+        ax.errorbar(x, y, yerr=yerr, xerr=xerr, linestyle='None', capsize=2, **kwargs)
+
+    def baseplot_errorbars_with_markers(self, ax, x, y, yerr=None, xerr=None, **kwargs):
+        ax.errorbar(x, y, yerr=yerr, xerr=xerr, linestyle='None', capsize=2, marker='.', **kwargs)
+
+    def to_sf(self, num, sf=4):
+        result = '%.*g' % (sf, num)
+        # result = (f'{num:.{sf}g}')
+        return result
