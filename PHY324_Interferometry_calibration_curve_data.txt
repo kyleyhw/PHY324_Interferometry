@@ -1,6 +1,7 @@
 # Each reading is the reading on the micrometer of the Michelson Interferometer when fringes have disappeared and reappeared 50 times.
 # 20 readings were taken for a total of 1000 disappearances and reappearances.
-# The mirror was moved towards the viewpoint, hence the decreasing reading. 
+# The mirror was moved towards the viewpoint, hence the decreasing reading.
+# Data taken on Jan 26, 2023.
 14.015
 13.940
 13.870
