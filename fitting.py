@@ -12,9 +12,10 @@ from fitting_and_analysis import Output
 Output = Output()
 
 class Fitting():
-    def __init__(self, model, x, y_measured, y_error, p0=None):
+    def __init__(self, model, x, y_measured, y_error, x_error=None, p0=None):
         self.model = model
         self.x = x
+        self.x_error = x_error
         self.y_measured = y_measured
         self.y_error = y_error
 
@@ -27,7 +28,7 @@ class Fitting():
 
     def plot_data_and_fit(self, ax, **kwargs):
 
-        Output.baseplot_errorbars_with_markers(ax=ax, x=self.x, y=self.y_measured, yerr=self.y_error, xerr=None, label='data')
+        Output.baseplot_errorbars_with_markers(ax=ax, x=self.x, y=self.y_measured, yerr=self.y_error, xerr=self.x_error, label='data')
 
         x_for_plotting_fit = np.linspace(*ax.get_xlim(), 10000)
 

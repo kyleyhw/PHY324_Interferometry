@@ -12,7 +12,7 @@ import fitting
 data = data_loader.DataLoader('PHY324_Interferometry_calibration_curve_data.txt')
 model = fit_models.Linear()
 
-fit = fitting.Fitting(model=model, x=data.x, y_measured=data.full_data, y_error=data.errors)
+fit = fitting.Fitting(model=model, x=data.x, x_error=data.x_error, y_measured=data.full_data, y_error=data.errors)
 
 fig, ax = plt.subplots(1, 1, figsize=(32, 18))
 

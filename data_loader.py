@@ -16,4 +16,5 @@ class DataLoader():
 
         self.errors = np.zeros_like(self.zeroed_data) + instrumental_uncertainty.value
 
-        self.x = np.linspace(0, 1000, len(self.full_data), endpoint=True)
+        self.x = np.linspace(0, 1000, len(self.full_data), endpoint=True) * u.dimensionless_unscaled
+        self.x_error = 1 * u.dimensionless_unscaled
