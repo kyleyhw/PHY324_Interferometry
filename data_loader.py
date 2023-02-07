@@ -10,7 +10,7 @@ class DataLoader():
         self.full_data = np.loadtxt(filename)
         self.zeroed_data = cff.remove_systematic_error(self.full_data)
 
-        instrumental_uncertainty = 0.25 * u.millimeter
+        instrumental_uncertainty = 0.005 * u.millimeter
         self.physical_quantities = np.array([PhysicalQuantity(data=data * u.millimeter, uncertainty=instrumental_uncertainty)] for data in self.full_data)
         self.zeroed_physical_quantities = np.array([PhysicalQuantity(data=data * u.millimeter, uncertainty=instrumental_uncertainty)] for data in self.zeroed_data)
 

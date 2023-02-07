@@ -60,3 +60,6 @@ class Output():
         result = '%.*g' % (sf, num)
         # result = (f'{num:.{sf}g}')
         return result
+
+    # def print_with_uncertainty(self, num, err):
+    #     result =
