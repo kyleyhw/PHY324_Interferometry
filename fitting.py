@@ -15,7 +15,7 @@ import error_propagation
 ErrorPropagation = error_propagation.ErrorPropagation()
 
 class Fitting():
-    def __init__(self, model, x, y_measured, y_error, x_error=None, p0=None, units_for_parameters=None, info_sigfigs=3, override_info=False): # hard coded for now # OVERRIDE_INFO
+    def __init__(self, model, x, y_measured, y_error, x_error=None, p0=None, units_for_parameters=None): # requires hard coding for now
         self.model = model
         self.x = x
         self.x_error = x_error
@@ -25,7 +25,7 @@ class Fitting():
         self.popt, self.pcov = curve_fit(self.model, self.x, self.y_measured, sigma=y_error, absolute_sigma=True, p0=p0)
         self.parameter_errors = np.sqrt(np.diag(self.pcov))
 
-        self.fitted_function = self.model.CorrespondingFittedFunction(popt=self.popt, parameter_errors=self.parameter_errors, units_for_parameters=units_for_parameters, info_sigfigs=info_sigfigs, override_info=override_info)
+        self.fitted_function = self.model.CorrespondingFittedFunction(popt=self.popt, parameter_errors=self.parameter_errors, units_for_parameters=units_for_parameters)
 
         self.y_predicted = self.fitted_function(self.x)
 
@@ -44,8 +44,8 @@ class Fitting():
             info_fontsize = 22
 
             info_on_ax = self.fitted_function.parameter_info + \
-                         '\n$\chi^2$ / DOF = ' + Output.to_sf(self.cfa.raw_chi2, sf=info_sigfigs) + ' / ' + str(self.cfa.degrees_of_freedom) + ' = ' + Output.to_sf(self.cfa.reduced_chi2, sf=info_sigfigs) + \
-                         '\n$\chi^2$ prob = ' + Output.to_sf(self.cfa.chi2_probability, sf=info_sigfigs)
+                         '\n$\chi^2$ / DOF = ' + str(Output.to_sf(self.cfa.raw_chi2, sf=info_sigfigs)) + ' / ' + str(self.cfa.degrees_of_freedom) + ' = ' + str(Output.to_sf(self.cfa.reduced_chi2, sf=info_sigfigs)) + \
+                         '\n$\chi^2$ prob = ' + str(Output.to_sf(self.cfa.chi2_probability, sf=info_sigfigs))
 
 
             ax_text = AnchoredText(info_on_ax, loc='lower left', frameon=False, prop=dict(fontsize=info_fontsize))

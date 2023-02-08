@@ -67,7 +67,7 @@ class Output():
 
     def get_dp(self, num): # returns number of decimal places
         decimal = Decimal(str(num))
-        if decimal >= 1:
+        if decimal.as_tuple().exponent >= 0:
             dp = -int(np.log10(num))
         else:
             dp = -decimal.as_tuple().exponent
@@ -77,14 +77,20 @@ class Output():
         rounded_uncertainty = self.to_sf(uncertainty, sf=1)
         uncertainty_dp = self.get_dp(rounded_uncertainty)
         rounded_num = round(num, uncertainty_dp)
+        rounded_num_dp = self.get_dp(rounded_num)
 
         rounded_uncertainty = str(rounded_uncertainty)
         rounded_num = str(rounded_num)
 
         if uncertainty_dp > 0:
-            rounded_num += '.'
-            for i in range(uncertainty_dp):
+            if rounded_num_dp <= 0:
+                rounded_num += '.'
+            for i in range(uncertainty_dp - rounded_num_dp):
                 rounded_num += '0'
         return rounded_num + '$\pm$' + rounded_uncertainty
 
-
+#
+# Output = Output()
+# num = 345
+# uncert = 1
+# print(Output.print_with_uncertainty(num, uncert))

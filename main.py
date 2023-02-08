@@ -40,7 +40,7 @@ def fit_data_to_path_length(show=False, save=False):
         data.x_error = data.x_error * wavelength/2
 
         fit = fitting.Fitting(model=model, x=data.x, x_error=data.x_error, y_measured=data.full_data,
-                              y_error=data.errors, units_for_parameters=('(unitless)', 'mm'), info_sigfigs=4, override_info=True)
+                              y_error=data.errors, units_for_parameters=('(unitless)', 'mm'))
 
         fig, ax = plt.subplots(1, 1, figsize=(16, 9))
 
@@ -83,6 +83,6 @@ def plot_residuals(show=True, save=False):
                 fig.savefig('PHY324_Interferometry_calibration_curve_residuals.png')
 
 
-fit_data_to_fringes(save=True)
-fit_data_to_path_length(save=True)
-plot_residuals(save=True)
+fit_data_to_fringes(show=True, save=False)
+fit_data_to_path_length(show=True, save=False)
+plot_residuals(show=True, save=False)

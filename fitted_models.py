@@ -29,7 +29,7 @@ class GaussianZeroCenter(): # height is usually 1; not probability density
 
 
 class Linear():
-    def __init__(self, popt, parameter_errors, units_for_parameters, info_sigfigs=4, override_info=False): # OVERRIDE_INFO
+    def __init__(self, popt, parameter_errors, units_for_parameters):
         self.popt = popt
         (self.m, self.c) = popt
         (self.m_error, self.c_error) = parameter_errors
@@ -38,18 +38,8 @@ class Linear():
         self.number_of_parameters = self.function.number_of_parameters
         self.units_for_parameters = units_for_parameters
 
-
-        if override_info: # OVERRIDE_INFO
-            self.parameter_info = '\nm = (' + f'{float(Output.to_sf(self.m, info_sigfigs)):1.2f}' + ' $\pm$ ' + Output.to_sf(
-                self.m_error, 1) + ') ' + self.units_for_parameters[0] + \
-                                  '\nc = (' + f'{float(Output.to_sf(self.c, info_sigfigs)):2.3f}' + ' $\pm$ ' + Output.to_sf(
-                self.c_error, 1) + ') ' + self.units_for_parameters[1]
-
-        else:
-            self.parameter_info = '\nm = (' + Output.to_sf(self.m, info_sigfigs) + ' $\pm$ ' + Output.to_sf(
-                self.m_error, 1) + ') ' + self.units_for_parameters[0] + \
-                                  '\nc = (' + Output.to_sf(self.c, info_sigfigs) + ' $\pm$ ' + Output.to_sf(
-                self.c_error, 1) + ') ' + self.units_for_parameters[1]
+        self.parameter_info = '\nm = (' + Output.print_with_uncertainty(self.m, self.m_error) + ') ' + self.units_for_parameters[0] + \
+                              '\nc = (' + Output.print_with_uncertainty(self.c, self.c_error) + ') ' + self.units_for_parameters[1]
 
 
     def __call__(self, x):
