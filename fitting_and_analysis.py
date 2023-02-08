@@ -79,6 +79,9 @@ class Output():
         rounded_num = round(num, uncertainty_dp)
         rounded_num_dp = self.get_dp(rounded_num)
 
+        if uncertainty_dp < 0:
+            rounded_num = int(rounded_num)
+
         rounded_uncertainty = str(rounded_uncertainty)
         rounded_num = str(rounded_num)
 
@@ -89,8 +92,8 @@ class Output():
                 rounded_num += '0'
         return rounded_num + '$\pm$' + rounded_uncertainty
 
-#
-# Output = Output()
-# num = 345
-# uncert = 1
-# print(Output.print_with_uncertainty(num, uncert))
+
+Output = Output()
+num = 3453478.2981732
+uncert = 0.938274
+print(Output.print_with_uncertainty(num, uncert))
