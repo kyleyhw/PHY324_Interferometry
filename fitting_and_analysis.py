@@ -1,5 +1,6 @@
 import numpy as np
 import scipy.stats as spstats
+from decimal import Decimal
 
 class CurveFitFuncs():
     def __init__(self):
@@ -56,10 +57,34 @@ class Output():
     def baseplot_errorbars_with_markers(self, ax, x, y, yerr=None, xerr=None, **kwargs):
         ax.errorbar(x, y, yerr=yerr, xerr=xerr, linestyle='None', capsize=2, marker='.', **kwargs)
 
-    def to_sf(self, num, sf=4):
+    def to_sf(self, num, sf=1):
         result = '%.*g' % (sf, num)
         # result = (f'{num:.{sf}g}')
+        result = float(result)
+        if result >= 1:
+            result = int(result)
         return result
 
-    # def print_with_uncertainty(self, num, err):
-    #     result =
+    def get_dp(self, num): # returns number of decimal places
+        decimal = Decimal(str(num))
+        if decimal >= 1:
+            dp = -int(np.log10(num))
+        else:
+            dp = -decimal.as_tuple().exponent
+        return dp
+
+    def print_with_uncertainty(self, num, uncertainty):
+        rounded_uncertainty = self.to_sf(uncertainty, sf=1)
+        uncertainty_dp = self.get_dp(rounded_uncertainty)
+        rounded_num = round(num, uncertainty_dp)
+
+        rounded_uncertainty = str(rounded_uncertainty)
+        rounded_num = str(rounded_num)
+
+        if uncertainty_dp > 0:
+            rounded_num += '.'
+            for i in range(uncertainty_dp):
+                rounded_num += '0'
+        return rounded_num + '$\pm$' + rounded_uncertainty
+
+
