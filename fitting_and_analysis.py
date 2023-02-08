@@ -57,11 +57,12 @@ class Output():
     def baseplot_errorbars_with_markers(self, ax, x, y, yerr=None, xerr=None, **kwargs):
         ax.errorbar(x, y, yerr=yerr, xerr=xerr, linestyle='None', capsize=2, marker='.', **kwargs)
 
-    def to_sf(self, num, sf=1):
+    def to_sf(self, num, sf=3):
         result = '%.*g' % (sf, num)
         # result = (f'{num:.{sf}g}')
         result = float(result)
-        if result >= 1:
+        decimal = Decimal(str(num))
+        if decimal.as_tuple().exponent >= 0:
             result = int(result)
         return result
 
@@ -93,7 +94,7 @@ class Output():
         return rounded_num + '$\pm$' + rounded_uncertainty
 
 
-Output = Output()
-num = 3453478.2981732
-uncert = 0.938274
-print(Output.print_with_uncertainty(num, uncert))
+# Output = Output()
+# num = 3453478.2981732
+# uncert = 0.938274
+# print(Output.print_with_uncertainty(num, uncert))

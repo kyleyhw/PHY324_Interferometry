@@ -22,7 +22,7 @@ class Fitting():
         self.y_measured = y_measured
         self.y_error = y_error
 
-        self.popt, self.pcov = curve_fit(self.model, self.x, self.y_measured, sigma=y_error, absolute_sigma=True, p0=p0)
+        self.popt, self.pcov = curve_fit(self.model, self.x, self.y_measured, sigma=y_error, absolute_sigma=True, p0=p0, maxfev=100000)
         self.parameter_errors = np.sqrt(np.diag(self.pcov))
 
         self.fitted_function = self.model.CorrespondingFittedFunction(popt=self.popt, parameter_errors=self.parameter_errors, units_for_parameters=units_for_parameters)
